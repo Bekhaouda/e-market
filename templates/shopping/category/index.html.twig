@@ -1,20 +1,79 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CategoryController!{% endblock %}
+{% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/intellectec/Documents/GitHub/e-market/src/Controller/Shopping/CategoryController.php'|file_link(0) }}">src/Controller/Shopping/CategoryController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/intellectec/Documents/GitHub/e-market/templates/shopping/category/index.html.twig'|file_link(0) }}">templates/shopping/category/index.html.twig</a></code></li>
-    </ul>
+<section>
+<div class="container">
+<div class="row">
+
+<div class="col-sm-3">
+<div class="left-sidebar">
+<h2>List of Categorys</h2>
+{% for category in categorys %}
+<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+<div class="panel panel-default">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
+<span class="badge pull-right"><i class="fa fa-plus"></i></span>
+<a href ="{{path('products_category',{'id':category.id})}}"> {{ category.name }}  </a>                                 
+</a>
+</h4>
 </div>
+
+</div>
+</div>
+{% endfor %}     
+
+</div>
+</div>
+
+
+<div class="col-sm-9 padding-right">
+<div class="features_items"><!--features_items-->
+<h2 class="title text-center">Features Items</h2>
+{% for product in products %}
+<div class="col-sm-4">
+<div class="product-image-wrapper">
+<div class="single-products">
+<div class="productinfo text-center">
+
+
+
+{% set photo = product.getPhotos() %}    
+
+<img alt="Embedded Image" src="{{asset(photo[0]) }}" />  
+
+
+<h2><span>$</span>{{product.price}}</h2>
+<p>{{product.name}}</p>
+<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+<a href="{{path('details_product',{'id':product.id})}}" class="btn btn-primary">Savoir plus</a>
+
+<a href="{{path('details_product',{'id':product.id})}}" class="btn btn-primary">Savoir plus</a>
+                                
+</div>
+<div class="product-overlay">
+<div class="overlay-content">
+<h2><span>$</span>{{product.price}}</h2>
+<p>{{product.name}} </p>
+<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+<a href="{{path('details_product',{'id':product.id})}}" class="btn btn-primary">Savoir plus</a>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+{% endfor %}  
+
+
+
+
+</div>
+</div>
+</section>
 {% endblock %}

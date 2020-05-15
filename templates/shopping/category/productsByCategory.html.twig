@@ -11,7 +11,7 @@
             
             <div class="col-sm-3">
                 <div class="left-sidebar">
-                    <h2>Category</h2>
+                    <h2>List of Categorys</h2>
                      {% for category in categorys %}
                     <div class="panel-group category-products" id="accordian"><!--category-productsr-->
                         <div class="panel panel-default">
@@ -35,23 +35,24 @@
             <div class="col-sm-9 padding-right">
                 <div class="features_items"><!--features_items-->
                     <h2 class="title text-center">Features Items</h2>
-                    {% for product in products %}
+                    {% for product in categorie.products %}
                     <div class="col-sm-4">
                         <div class="product-image-wrapper">
                             <div class="single-products">
-                                
-                                <div class="productinfo text-center">
-                                   
+                                    <div class="productinfo text-center">
+                                       
+                                        
+                                      
                                     {% set photo = product.getPhotos() %}    
                                     
-                                    <img alt="Embedded Image" src="{{asset(photo[0]) }}"/>  
+                                    <img alt="Embedded Image" src="{{asset(photo[0]) }}" />  
                                      
+                                    
                                         <h2><span>$</span>{{product.price}}</h2>
                                         <p>{{product.name}}</p>
                                         <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                       <a href="{{path('details_product',{'id':product.id})}}" class="btn btn-primary">Savoir plus</a>
-                                       
-                                </div>
+                                        <a href="{{path('details_product',{'id':product.id})}}" class="btn btn-primary">Savoir plus</a>
+                                    </div>
                                     <div class="product-overlay">
                                         <div class="overlay-content">
                                             <h2><span>$</span>{{product.price}}</h2>
@@ -60,7 +61,6 @@
                                              <a href="{{path('details_product',{'id':product.id})}}" class="btn btn-primary">Savoir plus</a>
                                         </div>
                                     </div>
-                            
                             </div>
                             
                         </div>

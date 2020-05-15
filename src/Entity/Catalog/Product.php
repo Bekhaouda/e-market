@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\Store\ProductRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Catalog\ProductRepository")
  */
 class Product
 {
@@ -19,7 +19,9 @@ class Product
      * @ORM\Column(type="integer")
      */
     private $id;
-
+    
+    
+    private $categoryId;
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Catalog\Category", inversedBy="products")
      * @ORM\JoinColumn(nullable=false)
@@ -104,7 +106,8 @@ class Product
 
     public function __construct()
     {
-        $this->categories = new ArrayCollection();
+        //$this->categories = new ArrayCollection();
+        $this->categorie = new Category();
         $this->photos = new ArrayCollection();
         $this->specifics = new ArrayCollection();
         $this->taxes = new ArrayCollection();
@@ -117,7 +120,10 @@ class Product
     {
         return $this->id;
     }
-
+    public function getCategoryId(): ?int
+    {
+        return $this->categoryId;
+    }
     public function getCategory(): ?Category
     {
         return $this->category;
@@ -428,4 +434,10 @@ class Product
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
+
 }

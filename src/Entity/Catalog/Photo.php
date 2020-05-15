@@ -89,4 +89,10 @@ class Photo
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->path;
+    }
+
 }

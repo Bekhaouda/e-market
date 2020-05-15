@@ -47,4 +47,28 @@ class ProductRepository extends ServiceEntityRepository
         ;
     }
     */
+     /**
+     * 
+     */
+    public function findProductsByCategory($id) : array {
+
+        /* $em = $this->getEntityManager();
+        $query = $em->createQuery('SELECT u FROM App\Entity\Catalog\Product u WHERE u.age > 20');
+        $users = $query->getResult(); */
+          
+        $em = $this->getEntityManager();
+        
+            $query = $em->createQuery('SELECT u FROM App\Entity\Catalog\Product u where u.categoryId = 1 ');
+           // ->setParameter('p',$id); 
+        $products =  $query->getResult();
+        return $products;
+      }
+
+
+
+
+
+
+
+
 }

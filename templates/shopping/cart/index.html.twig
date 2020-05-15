@@ -3,6 +3,8 @@
 {% block title %}Hello CartController!{% endblock %}
 
 {% block body %}
+	
+{% if items | length > 0 %}	
 	<section id="cart_items">
 		<div class="container">
 			<div class="breadcrumbs">
@@ -11,95 +13,59 @@
 				  <li class="active">Shopping Cart</li>
 				</ol>
 			</div>
+			
+			
 			<div class="table-responsive cart_info">
 				<table class="table table-condensed">
 					<thead>
 						<tr class="cart_menu">
 							<td class="image">Item</td>
-							<td class="description"></td>
+							<td class="description">Description</td>
 							<td class="price">Price</td>
 							<td class="quantity">Quantity</td>
 							<td class="total">Total</td>
-							<td></td>
+							
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td class="cart_product">
-								<a href=""><img src="images/cart/one.png" alt=""></a>
-							</td>
-							<td class="cart_description">
-								<h4><a href="">Colorblock Scuba</a></h4>
-								<p>Web ID: 1089772</p>
-							</td>
-							<td class="cart_price">
-								<p>$59</p>
-							</td>
-							<td class="cart_quantity">
-								<div class="cart_quantity_button">
-									<a class="cart_quantity_up" href=""> + </a>
-									<input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-									<a class="cart_quantity_down" href=""> - </a>
-								</div>
-							</td>
-							<td class="cart_total">
-								<p class="cart_total_price">$59</p>
-							</td>
-							<td class="cart_delete">
-								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-							</td>
-						</tr>
+					{% set total = 0 %} 
+					{% set tax = 0.15 %} 
 
+					{% for item in items %}
 						<tr>
 							<td class="cart_product">
-								<a href=""><img src="images/cart/two.png" alt=""></a>
+
+							 {% set photo = item.product.getPhotos() %}    
+                                    
+                             <a href=""> <img alt="" src="{{asset(photo[0]) }}" width="70" height="60"/> </a> 
+								 
 							</td>
 							<td class="cart_description">
-								<h4><a href="">Colorblock Scuba</a></h4>
-								<p>Web ID: 1089772</p>
+								<h4><a href="">{{item.product.name}}</a></h4>
+								<p>Web ID: 
+								{{item.product.id}}</p>
 							</td>
 							<td class="cart_price">
-								<p>$59</p>
+								<p><span>$</span>{{item.product.price}}</p>
 							</td>
 							<td class="cart_quantity">
 								<div class="cart_quantity_button">
 									<a class="cart_quantity_up" href=""> + </a>
-									<input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
+									<input class="cart_quantity_input" type="text" name="quantity" value={{item.quantity}} autocomplete="off" size="2">
 									<a class="cart_quantity_down" href=""> - </a>
 								</div>
 							</td>
 							<td class="cart_total">
-								<p class="cart_total_price">$59</p>
+								<p class="cart_total_price"><span>$</span>{{item.product.price * item.quantity}}</p>
 							</td>
 							<td class="cart_delete">
-								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+								<a href ={{path('cart_remove',{'id':item.product.id})}}
+                                    <i class="fa btn-danger Active btn-smfa-trash" ></i></a>
 							</td>
+							{% set total = total + (item.product.price * item.quantity)  %}
 						</tr>
-						<tr>
-							<td class="cart_product">
-								<a href=""><img src="images/cart/three.png" alt=""></a>
-							</td>
-							<td class="cart_description">
-								<h4><a href="">Colorblock Scuba</a></h4>
-								<p>Web ID: 1089772</p>
-							</td>
-							<td class="cart_price">
-								<p>$59</p>
-							</td>
-							<td class="cart_quantity">
-								<div class="cart_quantity_button">
-									<a class="cart_quantity_up" href=""> + </a>
-									<input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-									<a class="cart_quantity_down" href=""> - </a>
-								</div>
-							</td>
-							<td class="cart_total">
-								<p class="cart_total_price">$59</p>
-							</td>
-							<td class="cart_delete">
-								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-							</td>
-						</tr>
+                    {% endfor %}
+						
 					</tbody>
 				</table>
 			</div>
@@ -169,17 +135,61 @@
 				</div>
 				<div class="col-sm-6">
 					<div class="total_area">
+					{% set totalGlobal = total*(1.15) %}
+					{% set totalTax = total*(0.15) %}
 						<ul>
-							<li>Cart Sub Total <span>$59</span></li>
-							<li>Eco Tax <span>$2</span></li>
+							<li>Cart Sub Total <span>$</span><span>{{total}}</span></li>
+							<li>Eco Tax $0.15%<span>{{totalTax}}</span></li>
 							<li>Shipping Cost <span>Free</span></li>
-							<li>Total <span>$61</span></li>
+							<li>Total <span>$</span><span>{{totalGlobal}}</span></li>
 						</ul>
 							<a class="btn btn-default update" href="">Update</a>
-							<a class="btn btn-default check_out" href="">Check Out</a>
+							<a class="btn btn-default check_out" href="{{path('checkout')}}">Check Out</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section><!--/#do_action-->
+
+ {% else %}
+  
+  <section id="cart_items">
+		<div class="container">
+			<div class="breadcrumbs">
+				<ol class="breadcrumb">
+				  <li><a href="#">Home</a></li>
+				  <li class="active">Shopping Cart  Surprise, c'est vide !</li>
+				</ol>
+			</div>
+			
+			
+			<div class="table-responsive cart_info">
+				<table class="table table-condensed">
+					<thead>
+						<tr class="cart_menu">
+							<td class="image">Item</td>
+							<td class="description">Description</td>
+							<td class="price">Price</td>
+							<td class="quantity">Quantity</td>
+							<td class="total">Total</td>
+							
+						</tr>
+					</thead>
+					<tbody>
+					
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
+  
+  
+  
+  
+  
+  
+  
+  
+  {% endif %}
+
 {% endblock %}
